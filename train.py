@@ -93,7 +93,7 @@ def de_interleave(x, size):
 
 def main():
     parser = argparse.ArgumentParser(description='Paddle FixMatch Training')
-    parser.add_argument('--gpu-id', default='0', type=int,
+    parser.add_argument('--device', default='gpu', type=str,
                         help='id(s) for CUDA_VISIBLE_DEVICES')
     parser.add_argument('--num-workers', type=int, default=4,
                         help='number of workers')
@@ -109,7 +109,7 @@ def main():
                         help='dataset name')
     parser.add_argument('--total-steps', default=2 ** 20, type=int,
                         help='number of total steps to run')
-    parser.add_argument('--eval-step', default=1024, type=int,
+    parser.add_argument('--eval-step', default=1, type=int,
                         help='number of eval steps to run')
     parser.add_argument('--val-iter', default=64, type=int,
                         help='number of eval steps to run')
@@ -143,7 +143,7 @@ def main():
                         help='directory to output the result')
     parser.add_argument('--resume', default='', type=str,
                         help='path to latest checkpoint (default: none)')
-    parser.add_argument('--data-file', default='./data/cifar-10-python.tar.gz', type=str,
+    parser.add_argument('--data-file', default='/paddle/data/cifar-10-python.tar.gz', type=str,
                         help='path to cifar10 dataset')
     parser.add_argument('--seed', default=None, type=int,
                         help="random seed")
@@ -180,8 +180,9 @@ def main():
 
     global best_acc
 
-    paddle.set_device('gpu') if paddle.is_compiled_with_cuda() else paddle.set_device('cpu')
-    args.n_gpu = len(paddle.static.cuda_places()) if paddle.is_compiled_with_cuda() else 0
+    # paddle.set_device('gpu') if paddle.is_compiled_with_cuda() else paddle.set_device('cpu')
+    # args.n_gpu = len(paddle.static.cuda_places()) if paddle.is_compiled_with_cuda() else 0
+    device = paddle.set_device(args.device)
 
     def create_model(args):
         if args.arch == 'wideresnet':
@@ -309,7 +310,7 @@ def main():
 
     if args.use_ema:
         from models.ema import ModelEMA
-        ema_model = ModelEMA(args, model, args.ema_decay)
+        ema_model = ModelEMA(args, model)
 
     args.start_epoch = 0
 
