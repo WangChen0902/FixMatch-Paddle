@@ -8,15 +8,15 @@ Linux端基础训练推理功能测试的主程序为`test_train_inference_pytho
 
 | 算法名称 | 模型名称 | 单机单卡 | 单机多卡 | 多机多卡 | 模型压缩（单机多卡） |
 |  :----: |   :----:  |    :----:  |  :----:   |  :----:   |  :----:   |
-| relational-networks | Relational | 正常训练 | - | - | - |
+| FixMatch | FixMatch | 正常训练 | - | - | - |
 
 
 - 推理相关：基于训练是否使用量化，可以将训练产出的模型可以分为`正常模型`和`量化模型`，这两类模型对应的推理功能汇总如下，
 
 | 算法名称 | 模型名称 | 模型类型 |device | batchsize | tensorrt | mkldnn | cpu多线程 |
 |  :----:   |  :----: |   ----   |  :----:  |   :----:   |  :----:  |   :----:   |  :----:  |
-| relational-networks | Relational |  正常模型 | GPU | 1/1 | - | - | - |
-| relational-networks | Relational | 正常模型 | CPU | 1/1 | - | fp32 | 支持 |
+| FixMatch | FixMatch |  正常模型 | GPU | 1/1 | - | - | - |
+| FixMatch | FixMatch | 正常模型 | CPU | 1/1 | - | fp32 | 支持 |
 
 
 ## 2. 测试流程
@@ -49,7 +49,7 @@ Linux端基础训练推理功能测试的主程序为`test_train_inference_pytho
 本模型测试方法如下所示。
 
 ```bash
-bash test_tipc/test_train_inference_python.sh test_tipc/configs/Relational/train_infer_python.txt lite_train_lite_infer
+bash test_tipc/test_train_inference_python.sh test_tipc/configs/FixMatch/train_infer_python.txt lite_train_lite_infer
 ```
 
 输出结果如下。
